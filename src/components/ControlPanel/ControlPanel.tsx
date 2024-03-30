@@ -3,7 +3,7 @@ import { Flex, Box, Checkbox, Stack } from "@chakra-ui/react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-import { IControlPanel } from "../../helpers/types";
+import { IControlPanel, ICurrencies } from "../../helpers/types";
 
 const currentDate = new Date();
 const weekAgoDate = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
@@ -15,7 +15,7 @@ type Props = {
 const ControlPanel = ({ changeHandler }: Props) => {
   const [startDate, setStartDate] = useState<Date | null>(weekAgoDate);
   const [endDate, setEndDate] = useState<Date | null>(currentDate);
-  const [checkedItem, setCheckedItem] = useState({
+  const [checkedItem, setCheckedItem] = useState<ICurrencies>({
     eurRub: false,
     usdRub: false,
     cnyRub: false,
@@ -37,10 +37,11 @@ const ControlPanel = ({ changeHandler }: Props) => {
     };
 
     changeHandler(panelValue);
+    // eslint-disable-next-line
   }, [startDate, endDate, checkedItem]);
 
   return (
-    <Flex flexDirection="column" width="30%">
+    <Flex flexDirection="column" width="20%" minHeight="500px">
       <Stack spacing={5} marginBottom="20px">
         <Checkbox
           id="eurRub"

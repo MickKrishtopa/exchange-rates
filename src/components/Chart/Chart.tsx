@@ -5,28 +5,22 @@ import { ICurrencies, IRatesData } from "../../helpers/types";
 import { Box } from "@chakra-ui/react";
 
 type Props = {
-  data: IRatesData[];
-  selectedСurrencies: ICurrencies;
+  data: IRatesData[] | null;
+  selectedСurrencies: ICurrencies | null;
 };
 
 const colors = ["black", "blue", "green"];
 
 const Chart = ({ data, selectedСurrencies }: Props) => {
-  // console.log(data, selectedСurrencies);
   const chartContainerRef =
     useRef<HTMLDivElement>() as React.MutableRefObject<HTMLDivElement>;
 
-  // console.log(data);
-  // console.log("---------");
-  // console.log(selectedСurrencies);
-
   useEffect(() => {
-    if (!data) return;
-    if (!selectedСurrencies) return;
+    if (!data || !selectedСurrencies) return;
 
     const chart = createChart(chartContainerRef.current, {
       width: chartContainerRef.current.clientWidth,
-      height: 300,
+      height: 500,
     });
     chart.timeScale().fitContent();
 
@@ -56,7 +50,7 @@ const Chart = ({ data, selectedСurrencies }: Props) => {
     };
   }, [data, selectedСurrencies]);
 
-  return <Box width="60%" ref={chartContainerRef} />;
+  return <Box width="80%" ref={chartContainerRef} />;
 };
 
 export { Chart };

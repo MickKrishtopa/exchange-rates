@@ -1,15 +1,15 @@
-import { useState, useEffect } from 'react';
-import { Flex, Box } from '@chakra-ui/react';
+import { useState, useEffect } from "react";
+import { Flex } from "@chakra-ui/react";
 
-import { Chart } from '../Chart/Chart';
-import { ControlPanel } from '../ControlPanel/ControlPanel';
-import { Header } from '../Header/Header';
-import { fetchDataForDate } from '../../api/api';
+import { Chart } from "../Chart/Chart";
+import { ControlPanel } from "../ControlPanel/ControlPanel";
+import { Header } from "../Header/Header";
+import { fetchDataForDate } from "../../api/api";
 
-import './App.css';
-import { getDatesInRange } from '../../helpers/getDatesInRange';
-import { IControlPanel } from '../../helpers/types';
-import { IRatesData } from '../../helpers/types';
+import "./App.css";
+import { getDatesInRange } from "../../helpers/getDatesInRange";
+import { IControlPanel } from "../../helpers/types";
+import { IRatesData } from "../../helpers/types";
 
 function App() {
   const [data, setData] = useState<IRatesData[] | null>(null);
@@ -24,7 +24,6 @@ function App() {
 
   useEffect(() => {
     if (controlPanelValues?.startDate && controlPanelValues?.endDate) {
-      console.log('effect1');
       const dataRange = getDatesInRange(
         controlPanelValues?.startDate,
         controlPanelValues?.endDate
@@ -41,16 +40,15 @@ function App() {
         setFetchCounter((prev) => prev + 1);
       });
     }
+    // eslint-disable-next-line
   }, [controlPanelValues]);
 
   useEffect(() => {
-    console.log('DATA', data);
+    if (!controlPanelValues) return;
 
-    const start = controlPanelValues?.startDate;
+    console.log("DATA", data);
+    console.log("DATA", controlPanelValues.startDate);
 
-    const end = controlPanelValues?.endDate;
-
-    console.log('range', start, end);
     setDataToShow(
       data
         ? data
@@ -60,12 +58,14 @@ function App() {
               return dateA - dateB;
             })
             .filter((item) => {
+              if (!controlPanelValues.startDate || !controlPanelValues.endDate)
+                return;
+
               const curDate = new Date(item.date).getTime();
-              console.log(curDate);
-              console.log(start?.getTime());
-              console.log(end?.getTime());
-              console.log('-----');
-              return curDate >= start?.getTime() && curDate <= end?.getTime();
+              return (
+                curDate >= controlPanelValues.startDate.getTime() &&
+                curDate <= controlPanelValues.endDate.getTime()
+              );
             })
         : null
     );
@@ -74,14 +74,15 @@ function App() {
   return (
     <>
       <Header />
-      <Flex as='main' width='100%'>
+      <Flex as="main" width="100%">
         <ControlPanel changeHandler={changeFiltresHandler} />
-        {dataToShow && controlPanelValues?.checkedItem && (
-          <Chart
-            data={dataToShow}
-            selectedСurrencies={controlPanelValues?.checkedItem}
-          />
-        )}
+
+        <Chart
+          data={dataToShow}
+          selectedСurrencies={
+            controlPanelValues ? controlPanelValues.checkedItem : null
+          }
+        />
       </Flex>
       <Flex>{`Число запросов к API: ${fetchCounter}`}</Flex>
     </>
