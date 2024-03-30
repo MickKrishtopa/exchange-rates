@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react";
-import { Flex, Box } from "@chakra-ui/react";
+import { useState, useEffect } from 'react';
+import { Flex, Box } from '@chakra-ui/react';
 
-import { Chart } from "../Chart/Chart";
-import { ControlPanel } from "../ControlPanel/ControlPanel";
-import { Header } from "../Header/Header";
-import { fetchDataForDate } from "../../api/api";
+import { Chart } from '../Chart/Chart';
+import { ControlPanel } from '../ControlPanel/ControlPanel';
+import { Header } from '../Header/Header';
+import { fetchDataForDate } from '../../api/api';
 
-import "./App.css";
-import { getDatesInRange } from "../../helpers/getDatesInRange";
-import { IControlPanel } from "../../helpers/types";
-import { IRatesData } from "../../helpers/types";
+import './App.css';
+import { getDatesInRange } from '../../helpers/getDatesInRange';
+import { IControlPanel } from '../../helpers/types';
+import { IRatesData } from '../../helpers/types';
 
 function App() {
   const [data, setData] = useState<IRatesData[] | null>(null);
@@ -24,7 +24,7 @@ function App() {
 
   useEffect(() => {
     if (controlPanelValues?.startDate && controlPanelValues?.endDate) {
-      console.log("effect1");
+      console.log('effect1');
       const dataRange = getDatesInRange(
         controlPanelValues?.startDate,
         controlPanelValues?.endDate
@@ -44,13 +44,13 @@ function App() {
   }, [controlPanelValues]);
 
   useEffect(() => {
-    console.log("DATA", data);
+    console.log('DATA', data);
 
     const start = controlPanelValues?.startDate;
 
     const end = controlPanelValues?.endDate;
 
-    console.log("range", start, end);
+    console.log('range', start, end);
     setDataToShow(
       data
         ? data
@@ -60,7 +60,12 @@ function App() {
               return dateA - dateB;
             })
             .filter((item) => {
-              console.log(item);
+              const curDate = new Date(item.date).getTime();
+              console.log(curDate);
+              console.log(start?.getTime());
+              console.log(end?.getTime());
+              console.log('-----');
+              return curDate >= start?.getTime() && curDate <= end?.getTime();
             })
         : null
     );
@@ -69,7 +74,7 @@ function App() {
   return (
     <>
       <Header />
-      <Flex as="main" width="100%">
+      <Flex as='main' width='100%'>
         <ControlPanel changeHandler={changeFiltresHandler} />
         {dataToShow && controlPanelValues?.checkedItem && (
           <Chart
@@ -84,4 +89,3 @@ function App() {
 }
 
 export default App;
-
