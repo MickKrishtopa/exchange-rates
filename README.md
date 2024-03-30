@@ -1,6 +1,10 @@
-# React + TypeScript + Vite
+# Exchange-rates. React + TypeScript + Vite
 
-Локальный запуск:
+Используется [API](https://github.com/fawazahmed0/exchange-api).
+
+Позволяет получать данные о валютных парах за указанный интервал времени.
+
+## Локальный запуск:
 
 1. Склонировать репозиторий:
    git clone https://github.com/MickKrishtopa/exchange-rates.git
