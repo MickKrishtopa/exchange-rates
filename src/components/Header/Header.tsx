@@ -1,4 +1,4 @@
-import { Flex, Link } from "@chakra-ui/react";
+import { Flex, Box, Link } from "@chakra-ui/react";
 
 const Header = () => (
   <Flex
@@ -6,8 +6,12 @@ const Header = () => (
     justifyContent="space-between"
     minHeight="70px"
     padding="20px"
+    borderBottom="2px solid black"
+    marginBottom="20px"
+    fontSize="20px"
+    fontWeight="700"
   >
-    <h1>Курсы валют</h1>
+    <Box as="h1">Курсы валют</Box>
     <Link href="https://github.com/MickKrishtopa/exchange-rates" target="blank">
       Репозиторий
     </Link>

@@ -5,6 +5,7 @@ export interface IControlPanel {
 }
 
 export interface IRatesData {
+  [key: string]: string | number;
   date: string;
   usdRub: number;
   eurRub: number;
